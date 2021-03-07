@@ -1,8 +1,8 @@
-  #clone
+#clone
 git clone https://github.com/runcom21/jenkins-helloworld
 
 #déplacement 
-cd /jenkins-helloworld
+cd jenkins-helloworld
 
 #compilation
 javac Main.java
