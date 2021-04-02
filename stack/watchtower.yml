@@ -1,0 +1,14 @@
+version: "2.3"
+services:
+  watchtower:
+    container_name: watchtower
+    network_mode: bridge
+    image: containrrr/watchtower:amd64-latest
+    restart: unless-stopped
+    environment:
+      - TZ=Europe/Paris
+      - WATCHTOWER_SCHEDULE= 0 0 6 * * *
+      - WATCHTOWER_CLEANUP=true
+      - WATCHTOWER_REMOVE_VOLUMES=true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
