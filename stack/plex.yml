@@ -1,0 +1,50 @@
+version: "2.4"
+services:
+  linuxserver_plex:
+    image: ghcr.io/linuxserver/plex:amd64-latest
+    container_name: linuxserver_plex
+    network_mode: host
+    environment:
+      - PUID=1028  # Utiliser la commande (en SSH) : id NOM_UTILISATEUR
+      - PGID=100
+      - TZ=Europe/Paris
+      - UMASK_SET=022 #optional
+      - VERSION=latest
+      # Si plex est en mode HOST, la ligne suivante n'est pas nécessaire.
+      - PLEX_CLAIM=59xUzBCgN9o5NSVa8aKo
+    
+    # ###############
+    # Le label ci-dessous permet à Watchtower de faire les mises à jour automatiquement
+    # Cela peut-être supprimé si Watchtower n'est pas utilisé.
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    # ###############
+
+    volumes:
+      - "/volume1/docker/plex/config:/config"
+      - "/volume1/photo:/data/photos:rw"
+      - "/volume1/music:/data/musique:rw"
+      - "/volume1/video/_110_FORMATION:/data/Formation:rw"
+      - "/volume1/video/_100-IPTV_enregistrement:/data/IPTV:rw"
+      - "/volume1/video/_90-FAMILY_VIDEOS:/data/Famille:rw"
+      - "/volume1/video/_70-SHOW:/data/Spectacle:rw"
+      - "/volume1/video/_60-SERIES:/data/Séries:rw"
+      - "/volume1/video/_50-NOT_VIEW/_01_Nouveau:/data/Nouveau:rw"
+      - "/volume1/video/_40-MOVIES:/data/Films:rw"
+      - "/volume1/video/_30-DOCUMENTARY:/data/Documentaire:rw"
+      - "/volume1/video/_20-DIN:/data/Din:rw"
+      - "/volume1/video/_10-CARTOON:/data/DessinAnimé:rw"
+    
+    
+    
+    # Cette section permet de ne pas avoir besoin d'exporter puis éditer le fichier de configuration JSON du conteneur
+    # Il faut quand même faire le script de modification de permissions.
+     # devices:
+      #- /dev/dri:/dev/dri #optional
+    
+    restart: unless-stopped
+    
+    # Les valeurs ci-dessous sont à adapter à la quantité de RAM de votre NAS.
+    # Sur mon 920+ j'ai 12Go de RAM.
+    mem_limit: 4096m
+    mem_reservation: 2048m
